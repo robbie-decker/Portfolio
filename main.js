@@ -20,10 +20,22 @@ const loader = new GLTFLoader();
 let rubik;
 loader.load( 'rubiks cube.gltf', function ( gltf ) {
   rubik = gltf.scene;
-	scene.add( rubik );
-  // rubik.position.x = 0;
-  // rubik.position.y = 10;
-  // rubik.position.z = 0;
+  
+  let cubes = gltf.scene.children[0].children
+  for (let child in cubes){
+    console.log(cubes[child]);
+    var geo = new THREE.EdgesGeometry( cubes[child].geometry );
+    var mat = new THREE.LineBasicMaterial( { color: 0x000000} );
+    var wireframe = new THREE.LineSegments( geo, mat );
+    rubik.add(wireframe);
+  };
+
+  // var geo = new THREE.EdgesGeometry (gltf.scene.children[0].children[0].geometry);
+  // var mat = new THREE.LineBasicMaterial( { color: 0x000000} );
+  // var wireframe = new THREE.LineSegments( geo, mat );
+  // rubik.add(wireframe);
+
+  scene.add(rubik);
   rubik.scale.set(.5, .5, .5);
 
 }, undefined, function ( error ) {
@@ -32,18 +44,15 @@ loader.load( 'rubiks cube.gltf', function ( gltf ) {
 
 });
 
-// const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-// const cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
-
 camera.position.z = 10;
 
 
 function animate() {
 	requestAnimationFrame( animate );
-  rubik.rotation.x += 0.01;
+  rubik.rotation.x += 0.02;
   rubik.rotation.y += 0.01;
+  rubik.rotation.z += 0.01;
+
 	renderer.render( scene, camera );
 }
 animate();
