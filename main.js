@@ -72,7 +72,7 @@ scene.add( light );
 const loader = new GLTFLoader();
 let rubik;
 var pivot;
-loader.load( 'rubiks cube.gltf', function ( gltf ) {
+loader.load( 'rubiks_cube.gltf', function ( gltf ) {
   rubik = gltf.scene.children[0];
   rubik.position.x = -3;
   rubik.position.y = 1;
