@@ -37,6 +37,8 @@ section{
   justify-content: end;
   padding-right: 10%;
   font-size: 7vmin;
+  position: relative;
+  z-index: 1;
 }
 
 /* section:nth-child(odd){
