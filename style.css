@@ -1,6 +1,7 @@
 :root {
   --link-color: #a4a4a4;
   --main-color: rgba(255, 255, 255, 0.87);
+  --currentColor: rgba(255, 255, 255, 0.87);
   
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,7 +25,12 @@ a {
   position: relative;
 }
 a:hover {
-  color: var(--link-color);
+  filter: brightness(80%);
+}
+
+.logo{
+  height: 5vmin;
+  width: auto;
 }
 
 a::before{
@@ -66,6 +72,10 @@ section{
 canvas{
   position: fixed;
   z-index: 0;
+}
+
+li{
+  list-style-type: none;
 }
 
 @media (prefers-color-scheme: light) {
