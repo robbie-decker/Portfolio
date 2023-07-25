@@ -28,10 +28,6 @@ a:hover {
   filter: brightness(80%);
 }
 
-.logo{
-  height: 5vmin;
-  width: auto;
-}
 
 a::before{
   content: "";
@@ -50,6 +46,14 @@ a:hover::before {
   transform: scaleX(1);
 }
 
+.logo{
+  height: 5vmin;
+  width: auto;
+}
+
+#contact{
+  text-align: right;
+}
 
 body {
   margin: 0;
@@ -76,6 +80,10 @@ canvas{
 
 li{
   list-style-type: none;
+}
+
+ul{
+  margin-left: 0;
 }
 
 @media (prefers-color-scheme: light) {
