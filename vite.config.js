@@ -4,7 +4,7 @@ import { resolve } from "path"
 // vite.config.js
 export default defineConfig({
     // config options
-    base: '/Portfolio/',
+    base: './',
     build: {
         rollupOptions: {
           input: {
