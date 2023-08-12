@@ -22,6 +22,15 @@ window.addEventListener('resize', () =>
     // Update renderer
     renderer.setSize(sizes.width, sizes.height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    if(window.innerWidth < 800){
+      rubik.position.x = 0;
+      rubik.scale.set(.3, .3, .3);
+    }
+    else{
+      rubik.position.x = -3;
+      rubik.scale.set(.5,.5,.5);
+    }
 });
 
 const scene = new THREE.Scene();
@@ -88,6 +97,12 @@ loader.load( 'rubiks_cube.gltf', function ( gltf ) {
   };
   scene.add(rubik);
   rubik.scale.set(.5, .5, .5);
+
+  // Fix position and scale for smaller screens
+  if(window.innerWidth < 800){
+    rubik.position.x = 0;
+    rubik.scale.set(.3, .3, .3);
+  }
 
   //Fix the center of rotation for cube
   // var box = new THREE.Box3().setFromObject( rubik );
