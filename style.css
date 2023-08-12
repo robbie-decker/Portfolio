@@ -1,5 +1,4 @@
 :root {
-  --link-color: #a4a4a4;
   --main-color: rgba(255, 255, 255, 0.87);
   --background: #242424;
   --particle-color: #ffeded;
@@ -47,11 +46,6 @@ a:hover::before {
   transform: scaleX(1);
 }
 
-.logo{
-  height: 5vmin;
-  width: auto;
-}
-
 #contact{
   text-align: right;
 }
@@ -87,9 +81,14 @@ ul{
   margin-left: 0;
 }
 
+svg{
+  stroke: var(--main-color);
+  height: 5vmin;
+  width: auto;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    --link-color: #6a6a6a;
     --main-color: rgba(46, 46, 46, 0.87);
     --background: #ececec;
     --particle-color: #1f1f1f;
