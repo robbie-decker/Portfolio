@@ -108,3 +108,13 @@ img{
 img:hover{
     filter: brightness(90%);
 }
+
+
+@media (prefers-color-scheme: light) {
+    :root {
+      --link-color: #6a6a6a;
+      --main-color: rgba(46, 46, 46, 0.87);
+      --background: #ececec;
+      --particle-color: #1f1f1f;
+    }
+}

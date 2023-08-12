@@ -121,8 +121,10 @@ const particlesGeometry = new THREE.BufferGeometry();
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
 // Material
+let style = getComputedStyle(document.body);
+const particleColor = style.getPropertyValue('--particle-color');
 const particlesMaterial = new THREE.PointsMaterial({
-  color: '#ffeded',
+  color: particleColor,
   sizeAttenuation: true,
   size: 0.03
 });
