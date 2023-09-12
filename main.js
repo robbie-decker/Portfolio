@@ -186,3 +186,31 @@ function animate() {
 	renderer.render( scene, camera );
 }
 animate();
+
+
+const skill_logos = document.getElementById("skill_logos");
+
+var mousePos = {};
+
+for(let logo of skill_logos.children){
+ let rect;
+  logo.addEventListener("mouseenter", (e) => {
+    rect = e.target.getBoundingClientRect(); // get some poition, scale,... properties of the item
+    mousePos.x = e.clientX - rect.left; // get the mouse position relative to the element
+    mousePos.y = e.clientY - rect.top;
+    logo.querySelector('.modal').classList.toggle('show');
+    logo.querySelector('.modal').style.left = (mousePos.x + 10) + "px"; // set the modal position to the last stored position
+    logo.querySelector('.modal').style.top = mousePos.y + "px";
+  });
+
+  logo.addEventListener("mousemove", (e) => {
+    mousePos.x = e.clientX - rect.left;
+    mousePos.y = e.clientY - rect.top;
+    logo.querySelector('.modal').style.left = (mousePos.x + 10) + "px"; // set the modal position to the last stored position
+    logo.querySelector('.modal').style.top = mousePos.y + "px";
+  });
+
+  logo.addEventListener("mouseleave", () => {
+    logo.querySelector('.modal').classList.toggle('show');
+  });
+}

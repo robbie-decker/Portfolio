@@ -1,5 +1,5 @@
 :root {
-  --main-color: rgba(255, 255, 255, 0.87);
+  --main-color: rgba(255, 255, 255, 0.92);
   --background: #242424;
   --particle-color: #ffeded;
   
@@ -110,6 +110,13 @@ section{
   text-align: right;
 }
 
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  #skills {
+    max-width: 300px;
+  }
+}
+
 #skill_logos{
   display: flex;
   align-items: center;
@@ -121,8 +128,29 @@ section{
 
 #skill_logos img{
   max-width: 100px;
-  height: 100px;
+  height: 8vmin;
+  width: 8vmin;
   stroke:none;
+}
+
+.logo{
+  cursor:pointer;
+  position: relative;
+}
+
+
+.modal{
+  display:none;
+  position: absolute;
+  background: var(--main-color);
+  color: var(--background);
+  z-index: 100;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+.modal.show{
+  display:block;
 }
 
 canvas{
