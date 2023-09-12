@@ -101,6 +101,30 @@ section{
   border: var(--main-color) solid 5px;
 }
 
+#skills{
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  max-width: 600px;
+  text-align: right;
+}
+
+#skill_logos{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  max-width: inherit;
+  flex-wrap: wrap;
+}
+
+#skill_logos img{
+  max-width: 100px;
+  height: 100px;
+  stroke:none;
+}
+
 canvas{
   position: fixed;
   z-index: 0;
