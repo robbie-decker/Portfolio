@@ -61,12 +61,13 @@ body{
 
 .project a{
     width: max(100%, 250px);
-    height: max(75%, 200px);
+    height: 60%;
 }
 
 .logo{
     float: right;
-    height: 5vmin;
+    height: 6vmin;
+    min-height: 50px;
     width: auto;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -87,6 +88,22 @@ body{
     margin: 0 10px;
     display: flex;
     flex-direction: column;
+    height: 40%;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .img-info {
+      height: auto;
+    }
+
+
+}
+
+.git_logo{
+    display: flex;
+    justify-content: end;
+    align-items: end;
 }
 
 h2{
@@ -100,7 +117,6 @@ p{
 
 img{
     object-fit: cover;
-    /* max-width: 100%; */
     width: 100%;
     height: 100%
 }
