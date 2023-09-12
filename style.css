@@ -54,7 +54,10 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  height: 400vh;
+  height: 600vh;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 
 section{
@@ -62,10 +65,40 @@ section{
   height: 100vh;
   align-items: center;
   justify-content: end;
-  padding-right: 10%;
+  padding-right: 6%;
   font-size: 7vmin;
   position: relative;
   z-index: 1;
+}
+
+#about{
+  flex-direction: column;
+  text-align: right;
+  align-items: end;
+  max-width: 600px;
+}
+
+.about_info{
+  margin: 0;
+}
+
+.about_heading{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+}
+
+.about_heading h2{
+  font-size: 9vmin;
+}
+
+.about_heading img{
+  width: 175px;
+  height: 175px;
+  border-radius: 100%;
+  margin: 25px;
+  border: var(--main-color) solid 5px;
 }
 
 canvas{
