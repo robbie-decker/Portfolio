@@ -2,6 +2,7 @@
   --main-color: rgba(255, 255, 255);
   --background: #242424;
   --particle-color: #ffeded;
+  --brightness: 0.8;
   
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -105,6 +106,46 @@ section{
   border: var(--main-color) solid 5px;
 }
 
+#projects{
+  flex-direction: column;
+  align-items: end;
+  text-align: right;
+  max-width: 800px;
+}
+
+.featured_project{
+  display: flex;
+  justify-content: end;
+}
+
+.featured_project img{
+  width: min(25vw, 300px);
+  height: auto;
+  object-fit: cover;
+  /* border: solid 2px var(--main-color); */
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.featured_project a{
+  text-decoration: none;
+}
+
+.project_description{
+  font-size: clamp(1rem, 2vw, 2rem);
+  max-width: 60%;
+}
+
+.project_description h4{
+  margin: 5px 0;
+}
+
+h3{
+  margin: 5px 0;
+  font-size: clamp(1.5rem, 3.5vw, 4rem);
+  filter: brightness(var(--brightness));
+}
+
 #skills{
   display: flex;
   flex-direction: column;
@@ -183,5 +224,6 @@ svg{
     --main-color: rgba(46, 46, 46, 0.87);
     --background: #ececec;
     --particle-color: #1f1f1f;
+    --brightness: 1.2;
   }
 }
