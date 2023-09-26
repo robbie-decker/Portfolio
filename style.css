@@ -81,6 +81,7 @@ section{
   text-align: right;
   align-items: end;
   max-width: 800px;
+  justify-content: center;
 }
 
 .about_info{
