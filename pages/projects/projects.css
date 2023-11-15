@@ -41,6 +41,7 @@ body{
     align-items: stretch;
     gap: 15px;
     margin-top: 50px;
+    padding: 40px;
 }
 
 .project{
@@ -65,12 +66,12 @@ body{
 }
 
 .logo{
-    float: right;
     height: 6vmin;
     min-height: 50px;
     width: auto;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
 }
 
 .logo:hover{
@@ -89,21 +90,28 @@ body{
     display: flex;
     flex-direction: column;
     height: 40%;
+    position: relative;
 }
 
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     .img-info {
-      height: auto;
+      /* height: auto; */
+    }
+
+    .container{
+        padding: 10px;
     }
 
 
 }
 
 .git_logo{
-    display: flex;
+    /* display: flex;
     justify-content: end;
-    align-items: end;
+    align-items: end; */
+    position: absolute;
+    bottom: 0px;
 }
 
 h2{
