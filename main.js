@@ -104,7 +104,7 @@ loader.load( 'rubiks_cube.gltf', function ( gltf ) {
     rubik.scale.set(.3, .3, .3);
   }
 
-  //Fix the center of rotation for cube
+  // TODO: Fix the center of rotation for cube
   // var box = new THREE.Box3().setFromObject( rubik );
   // box.getCenter( rubik.position ); // this re-sets the mesh position
   // rubik.position.multiplyScalar( - 1 );
