@@ -80,7 +80,7 @@ section{
 }
 
 section.active{
-  animation: fade-right 1s ease-in;
+  animation: fade-right 1s ease-in-out;
   opacity: 1;
 }
 
@@ -121,7 +121,7 @@ section.active{
   gap: 8px;
   text-align: right;
   max-width: 800px;
-  height: auto;
+  /* height: auto; */
 }
 
 .featured_project{
