@@ -29,7 +29,8 @@ window.addEventListener('resize', () =>
     }
     else{
       rubik.position.x = -3;
-      rubik.scale.set(.5,.5,.5);
+      console.log("YOOOOO")
+      rubik.scale.set(.5, .5, .5);
     }
 });
 
@@ -80,38 +81,21 @@ scene.add( light );
  */
 const loader = new GLTFLoader();
 let rubik;
-var pivot;
-loader.load( 'rubiks_cube.gltf', function ( gltf ) {
+let cube_file = 'rubiks_cube(2023).gltf';
+loader.load( cube_file, function ( gltf ) {
   rubik = gltf.scene.children[0];
   rubik.position.x = -3;
-  rubik.position.y = 1;
-  
-  let cubes = gltf.scene.children[0].children
-  for (let child in cubes){
-    // Create the wireframe for the cube
-    var geo = new THREE.EdgesGeometry( cubes[child].geometry);
-    var mat = new THREE.LineBasicMaterial( { color: 0x000000} );
-    // var mat = new THREE.MeshPhongMaterial( { color: 0x000000} );
-    var wireframe = new THREE.LineSegments( geo, mat );
-    rubik.add(wireframe);
-  };
-  scene.add(rubik);
+  rubik.position.y = 50;
+  console.log(rubik.position);
   rubik.scale.set(.5, .5, .5);
+  
+  scene.add(rubik);
 
   // Fix position and scale for smaller screens
   if(window.innerWidth < 800){
     rubik.position.x = 0;
     rubik.scale.set(.3, .3, .3);
   }
-
-  // TODO: Fix the center of rotation for cube
-  // var box = new THREE.Box3().setFromObject( rubik );
-  // box.getCenter( rubik.position ); // this re-sets the mesh position
-  // rubik.position.multiplyScalar( - 1 );
-  
-  // pivot = new THREE.Group();
-  // scene.add( pivot );
-  // pivot.add( rubik );
 
 }, undefined, function ( error ) {
 
@@ -161,11 +145,10 @@ function animate() {
 	requestAnimationFrame( animate );
   // Cube rotation
   try{
-    // console.log(rubik);
-    rubik.rotation.x = scrollY * 0.002;
-    rubik.rotation.y = scrollY * 0.005;
-    rubik.rotation.z = scrollY * 0.005;
-    rubik.position.y = - (scrollY / sizes.height) + 1;
+    rubik.rotation.x = scrollY * 0.001;
+    rubik.rotation.y = scrollY * 0.0025;
+    rubik.rotation.z = scrollY * 0.0025;
+    rubik.position.y = - (scrollY / sizes.height);
   }
   catch(TypeError){
     console.log("Cube not loaded yet");
