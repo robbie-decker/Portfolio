@@ -59,6 +59,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: end;
+  overflow-x: hidden;
 }
 
 p{
@@ -70,9 +71,17 @@ section{
   height: 100vh;
   padding-right: 6%;
   font-size: 6vmin;
-  position: relative;
   z-index: 1;
   align-items: center;
+  /* to fade in from right */
+  position: relative;
+  opacity: 0;
+  transition: 1s all ease;
+}
+
+section.active{
+  animation: fade-right 1s ease-in;
+  opacity: 1;
 }
 
 #about{
@@ -227,5 +236,17 @@ svg{
     --background: #ececec;
     --particle-color: #1f1f1f;
     --brightness: 1.2;
+  }
+}
+
+
+@keyframes fade-right {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

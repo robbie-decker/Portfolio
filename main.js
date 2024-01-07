@@ -50,8 +50,22 @@ cameraGroup.add(camera);
  * Scroll Logic
  */
 let scrollY = window.scrollY;
+// Foor keeping track of section animations from right side
+let currentSection = 0;
+
+// Get all the sections on the page
+let sections = document.querySelectorAll('section');
+sections[currentSection].classList.add('active');
 window.addEventListener('scroll', ()=>{
   scrollY = window.scrollY;
+  const newSection = Math.round(scrollY / sizes.height);
+
+  if(newSection != currentSection){
+    sections[currentSection].classList.remove('active');
+    sections[newSection].classList.add('active');
+    currentSection = newSection;
+    console.log('changed', currentSection);
+  }
 });
 
 /**
@@ -175,10 +189,11 @@ const skill_logos = document.getElementById("skill_logos");
 
 var mousePos = {};
 
+// Adds modal to logos when hovering over them
 for(let logo of skill_logos.children){
  let rect;
   logo.addEventListener("mouseenter", (e) => {
-    rect = e.target.getBoundingClientRect(); // get some poition, scale,... properties of the item
+    rect = e.target.getBoundingClientRect(); // get some position, scale,... properties of the item
     mousePos.x = e.clientX - rect.left; // get the mouse position relative to the element
     mousePos.y = e.clientY - rect.top;
     logo.querySelector('.modal').classList.toggle('show');
