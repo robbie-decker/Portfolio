@@ -29,7 +29,6 @@ window.addEventListener('resize', () =>
     }
     else{
       rubik.position.x = -3;
-      console.log("YOOOOO")
       rubik.scale.set(.5, .5, .5);
     }
 });
@@ -45,28 +44,6 @@ scene.add(cameraGroup);
 const camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 0.1, 1000 );
 camera.position.z = 8;
 cameraGroup.add(camera);
-
-/**
- * Scroll Logic
- */
-let scrollY = window.scrollY;
-// Foor keeping track of section animations from right side
-let currentSection = 0;
-
-// Get all the sections on the page
-let sections = document.querySelectorAll('section');
-sections[currentSection].classList.add('active');
-window.addEventListener('scroll', ()=>{
-  scrollY = window.scrollY;
-  const newSection = Math.round(scrollY / sizes.height);
-
-  if(newSection != currentSection){
-    sections[currentSection].classList.remove('active');
-    sections[newSection].classList.add('active');
-    currentSection = newSection;
-    console.log('changed', currentSection);
-  }
-});
 
 /**
  * Cursor Logic (For parallax)
@@ -94,10 +71,19 @@ scene.add( light );
  * Load cube
  */
 const loader = new GLTFLoader();
-let rubik;
-let cube_file = 'rubiks_cube(2023).gltf';
+let rubik; // This is the rubiks cube
+let mixer; // This is for animations. Think of this as the timeline on blender
+const actions = [];
+const playDuration = 1.0;
+let animationTime = 0;
+let playingForward = true;
+
+// let cube_file = 'rubiks_cube(animation).gltf';
+let cube_file = 'updated_cube.glb';
+// let cube_file = 'rubiks_cube(2023).gltf';
+
 loader.load( cube_file, function ( gltf ) {
-  rubik = gltf.scene.children[0];
+  rubik = gltf.scene;
   rubik.position.x = -3;
   rubik.position.y = 50;
   console.log(rubik.position);
@@ -110,6 +96,22 @@ loader.load( cube_file, function ( gltf ) {
     rubik.position.x = 0;
     rubik.scale.set(.3, .3, .3);
   }
+
+  mixer = new THREE.AnimationMixer(rubik);
+
+  gltf.animations.forEach( function ( clip ) {
+      var action = mixer.clipAction(clip);
+      // action.reset();
+      action.setLoop(THREE.LoopOnce); // Set the loop to play only once
+      action.clampWhenFinished = true; // Keeps the last frame displayed after the animation ends
+      action.play();
+
+      action.paused = true; // Start paused
+      actions.push(action);
+  } );
+
+  console.log(mixer);
+
 
 }, undefined, function ( error ) {
 
@@ -146,23 +148,109 @@ const particlesMaterial = new THREE.PointsMaterial({
 const particles = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particles);
 
+
+const clock = new THREE.Clock();
+
+
+/**
+ * Scroll Logic for sections
+ */
+let scrollY = window.scrollY;
+// For keeping track of section animations from right side
+let currentSection = 0;
+
+// Get all the sections on the page
+let sections = document.querySelectorAll('section');
+sections[currentSection].classList.add('active');
+window.addEventListener('scroll', ()=>{
+  scrollY = window.scrollY;
+  const newSection = Math.round(scrollY / sizes.height);
+
+  if(newSection != currentSection){
+    sections[currentSection].classList.remove('active');
+    sections[newSection].classList.add('active');
+    currentSection = newSection;
+    console.log('changed', currentSection);
+
+    //Rotate pieces of the cube
+    if (mixer && actions.length > 0) {
+      actions.forEach(action => action.paused = false);
+      clock.start();
+      var elapsedTime = 0;
+
+      function updateAnimations() {
+          // var delta = clock.getDelta();
+          elapsedTime += deltaTime;
+          console.log(deltaTime);
+          // elapsedTime += delta;
+          if (elapsedTime >= playDuration) {
+              // Stop after playDuration seconds
+              actions.forEach(action => action.paused = true);
+              clock.stop();
+              if (playingForward) {
+                  animationTime += playDuration;
+              } else {
+                  animationTime -= playDuration;
+              }
+
+              // Check bounds and toggle direction if needed
+              if (animationTime >= actions[0]._clip.duration) {
+                  playingForward = false;
+                  animationTime = actions[0]._clip.duration;
+              } else if (animationTime <= 0) {
+                  playingForward = true;
+                  animationTime = 0;
+              }
+
+              // Set the time for all actions
+              actions.forEach(action => {
+                  // action.timeScale = playingForward ? 1 : -1; // Set playback direction
+                  action.time = animationTime;
+              });
+              return;
+          }
+          // Update all actions
+          if (playingForward) {
+              mixer.update(deltaTime);
+          } else {
+              mixer.update(-deltaTime);
+          }
+          requestAnimationFrame(updateAnimations);
+      }
+      updateAnimations();
+    }
+  }
+});
+
+
+
 /**
  * Animate
  */
-const clock = new THREE.Clock();
+let deltaTime;
+
 let previousTime = 0
 function animate() {
-  const elapsedTime = clock.getElapsedTime()
-  const deltaTime = elapsedTime - previousTime
-  previousTime = elapsedTime
+  // if(mixer){
+  //   mixer.update(clock.getDelta());
+  // }
 
-	requestAnimationFrame( animate );
+
+  // const elapsedTime = clock.getElapsedTime()
+  // const deltaTime = elapsedTime - previousTime
+  // previousTime = elapsedTime
+
+  deltaTime = clock.getDelta();
+
+
+	// requestAnimationFrame( animate );
   // Cube rotation
   try{
     rubik.rotation.x = scrollY * 0.001;
     rubik.rotation.y = scrollY * 0.0025;
     rubik.rotation.z = scrollY * 0.0025;
     rubik.position.y = - (scrollY / sizes.height);
+    
   }
   catch(TypeError){
     console.log("Cube not loaded yet");
@@ -171,18 +259,21 @@ function animate() {
   // Particles rotation
   particles.rotation.y += 0.001;
 
-  // Camera parallax
+  // // Camera parallax
   const parallaxX = -cursor.x;
   const parallaxY = cursor.y;
   cameraGroup.position.x += (parallaxX - cameraGroup.position.x) *  5 * deltaTime;
   cameraGroup.position.y += (parallaxY - cameraGroup.position.y) *  5 * deltaTime;
+  // cameraGroup.position.x += (parallaxX - cameraGroup.position.x) *  5;
+  // cameraGroup.position.y += (parallaxY - cameraGroup.position.y) *  5;
 
-  // Camera Y movement
+  // // Camera Y movement
   camera.position.y = - scrollY / sizes.height;
 
 	renderer.render( scene, camera );
 }
-animate();
+// animate();
+renderer.setAnimationLoop(animate);
 
 
 const skill_logos = document.getElementById("skill_logos");
