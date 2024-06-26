@@ -1,6 +1,5 @@
 import './style.css'
 import * as THREE from 'three';
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
@@ -56,6 +55,7 @@ window.addEventListener('mousemove', (event) =>{
   cursor.y = event.clientY / sizes.height - 0.5;
 });
 
+// TODO: Make the cube a bit smoother. Maybe add a queue to play out the animations. When scrolling fast the cube freaks out.
 
 const canvas = document.querySelector('canvas.threeJS');
 const renderer = new THREE.WebGLRenderer({
@@ -78,15 +78,12 @@ const playDuration = 1.0;
 let animationTime = 0;
 let playingForward = true;
 
-// let cube_file = 'rubiks_cube(animation).gltf';
-let cube_file = 'updated_cube.glb';
-// let cube_file = 'rubiks_cube(2023).gltf';
+let cube_file = 'rubiks_cube.glb';
 
 loader.load( cube_file, function ( gltf ) {
   rubik = gltf.scene;
   rubik.position.x = -3;
   rubik.position.y = 50;
-  console.log(rubik.position);
   rubik.scale.set(.5, .5, .5);
   
   scene.add(rubik);
@@ -108,13 +105,8 @@ loader.load( cube_file, function ( gltf ) {
 
       action.paused = true; // Start paused
       action._clip.duration = 4.95;
-      console.log(action);
       actions.push(action);
   } );
-
-  console.log(mixer);
-
-
 }, undefined, function ( error ) {
 
 	console.error( error );
@@ -172,12 +164,10 @@ window.addEventListener('scroll', ()=>{
     sections[currentSection].classList.remove('active');
     sections[newSection].classList.add('active');
     
+    // If scrolling down play the animation forward. If scrolling up play animation in reverse
     newSection > currentSection? playingForward = true : playingForward = false;
     
     currentSection = newSection;
-
-    console.log('changed', currentSection);
-
     //Rotate pieces of the cube
     if (mixer && actions.length > 0) {
       actions.forEach(action => action.paused = false);
@@ -185,10 +175,7 @@ window.addEventListener('scroll', ()=>{
       var elapsedTime = 0;
 
       function updateAnimations() {
-          // var delta = clock.getDelta();
           elapsedTime += deltaTime;
-          console.log(deltaTime);
-          // elapsedTime += delta;
           if (elapsedTime >= playDuration) {
               // Stop after playDuration seconds
               actions.forEach(action => action.paused = true);
@@ -210,7 +197,6 @@ window.addEventListener('scroll', ()=>{
 
               // Set the time for all actions
               actions.forEach(action => {
-                  // action.timeScale = playingForward ? 1 : -1; // Set playback direction
                   action.time = animationTime;
               });
               return;
@@ -237,19 +223,8 @@ let deltaTime;
 
 let previousTime = 0
 function animate() {
-  // if(mixer){
-  //   mixer.update(clock.getDelta());
-  // }
-
-
-  // const elapsedTime = clock.getElapsedTime()
-  // const deltaTime = elapsedTime - previousTime
-  // previousTime = elapsedTime
-
   deltaTime = clock.getDelta();
 
-
-	// requestAnimationFrame( animate );
   // Cube rotation
   try{
     rubik.rotation.x = scrollY * 0.001;
@@ -270,8 +245,6 @@ function animate() {
   const parallaxY = cursor.y;
   cameraGroup.position.x += (parallaxX - cameraGroup.position.x) *  5 * deltaTime;
   cameraGroup.position.y += (parallaxY - cameraGroup.position.y) *  5 * deltaTime;
-  // cameraGroup.position.x += (parallaxX - cameraGroup.position.x) *  5;
-  // cameraGroup.position.y += (parallaxY - cameraGroup.position.y) *  5;
 
   // // Camera Y movement
   camera.position.y = - scrollY / sizes.height;
