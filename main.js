@@ -107,6 +107,8 @@ loader.load( cube_file, function ( gltf ) {
       action.play();
 
       action.paused = true; // Start paused
+      action._clip.duration = 4.95;
+      console.log(action);
       actions.push(action);
   } );
 
@@ -169,7 +171,11 @@ window.addEventListener('scroll', ()=>{
   if(newSection != currentSection){
     sections[currentSection].classList.remove('active');
     sections[newSection].classList.add('active');
+    
+    newSection > currentSection? playingForward = true : playingForward = false;
+    
     currentSection = newSection;
+
     console.log('changed', currentSection);
 
     //Rotate pieces of the cube
